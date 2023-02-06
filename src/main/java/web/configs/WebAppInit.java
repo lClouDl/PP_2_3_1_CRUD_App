@@ -7,7 +7,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -29,7 +28,7 @@ public class WebAppInit extends AbstractAnnotationConfigDispatcherServletInitial
     //Этот метод переопределил для натсройки фильтров (для корректного отображения русских символов в полях
     //сохраняемого объекта класса User и правильной обрабатки методов PATCH и DELETE)
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
 
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(SpringConfig.class, SpringConfig.class);
