@@ -1,9 +1,11 @@
 package web.servisec;
 
 import org.springframework.stereotype.Service;
+
+
 import org.springframework.transaction.annotation.Transactional;
+import web.dao.UserDAO;
 import web.models.User;
-import web.repositories.UserRepository;
 
 import java.util.List;
 
@@ -11,38 +13,35 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UserServiceImp implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDAO userDAO;
 
-    public UserServiceImp(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImp(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
     public List<User> getListUser() {
-        return userRepository.findAll();
+        return userDAO.getListUser();
     }
 
     @Override
     public User getUserById(int id) {
-        return userRepository.findById(id).orElse(null);
+        return userDAO.getUserById(id);
     }
 
     @Override
     @Transactional
-    public void addUser(User user) {
-        userRepository.save(user);
-    }
+    public void addUser(User user) { userDAO.addUser(user); }
 
     @Override
     @Transactional
     public void update(int id, User user) {
-        user.setId(id);
-        userRepository.save(user);
+        userDAO.update(id, user);
     }
 
     @Override
     @Transactional
     public void delete(int id) {
-        userRepository.deleteById(id);
+        userDAO.delete(id);
     }
 }

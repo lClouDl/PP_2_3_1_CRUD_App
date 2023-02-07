@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -16,18 +17,15 @@ public class User {
     @NotNull(message = "Нельзя добавить человека без имени")
     @NotEmpty(message = "Нельзя добавить человека без имени")
     @Size(min = 2, max = 20, message = "Имя должно содержать не менее 2 и не более 20 символов")
-    @Column
     private String firstName;
 
     @NotNull(message = "Нельзя добавить человека без фамилии")
     @NotEmpty(message = "Нельзя добавить человека без фамилии")
     @Size(min = 1, max = 40, message = "Фамилия должна содержать не менее 1 и не более 40 символов")
-    @Column
     private String lastName;
 
     @NotNull(message = "Укажите пол человка")
     @NotEmpty(message = "Укажите пол человка")
-    @Column
     private String gender;
 
     public User(){}
@@ -68,5 +66,18 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.getId() && firstName.equals(user.getFirstName()) && lastName.equals(user.getLastName()) && gender.equals(user.getGender());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, gender);
     }
 }
